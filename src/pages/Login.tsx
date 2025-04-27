@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Shield, MapPin } from "lucide-react";
+import { Shield, MapPin, User } from "lucide-react";
 
 const Login = () => {
   const [locationError, setLocationError] = useState(true);
@@ -22,6 +22,12 @@ const Login = () => {
       console.log("Login submitted with:", { email, password });
       // Handle login logic
     }
+  };
+
+  const useDemoCredentials = () => {
+    setEmail("demo@aegiscloud.com");
+    setPassword("DemoAccess2025!");
+    setLocationError(false);
   };
 
   return (
@@ -79,13 +85,24 @@ const Login = () => {
               />
             </div>
 
-            <Button 
-              className="w-full bg-blue-800 hover:bg-blue-700" 
-              disabled={locationError}
-              type="submit"
-            >
-              {locationError ? "Enable Location to Sign In" : "Sign In"}
-            </Button>
+            <div className="flex flex-col space-y-2">
+              <Button 
+                className="w-full bg-blue-800 hover:bg-blue-700" 
+                disabled={locationError}
+                type="submit"
+              >
+                {locationError ? "Enable Location to Sign In" : "Sign In"}
+              </Button>
+              
+              <Button 
+                type="button"
+                variant="outline" 
+                className="w-full" 
+                onClick={useDemoCredentials}
+              >
+                <User className="mr-2 h-4 w-4" /> Use Demo Credentials
+              </Button>
+            </div>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-600">
