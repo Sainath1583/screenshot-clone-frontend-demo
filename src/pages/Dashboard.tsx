@@ -1,13 +1,95 @@
 
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Shield, ShieldAlert, LogIn, Bell } from "lucide-react";
 
 const Dashboard = () => {
   const stats = [
-    { title: "Total Logins", value: "0", description: "All login attempts" },
-    { title: "Normal Activity", value: "0", description: "Regular login attempts" },
-    { title: "Anomalous Activity", value: "0", description: "Suspicious login attempts" },
-    { title: "Active Alerts", value: "0", description: "Unresolved security issues" }
+    { 
+      title: "Total Logins", 
+      value: "1,234", 
+      description: "All login attempts",
+      icon: LogIn,
+      color: "text-blue-500"
+    },
+    { 
+      title: "Normal Activity", 
+      value: "1,156", 
+      description: "Regular login attempts",
+      icon: Shield,
+      color: "text-green-500"
+    },
+    { 
+      title: "Anomalous Activity", 
+      value: "78", 
+      description: "Suspicious login attempts",
+      icon: ShieldAlert,
+      color: "text-yellow-500"
+    },
+    { 
+      title: "Active Alerts", 
+      value: "12", 
+      description: "Unresolved security issues",
+      icon: Bell,
+      color: "text-red-500"
+    }
+  ];
+
+  const loginHistory = [
+    {
+      id: 1,
+      device: "Chrome / Windows",
+      location: "San Francisco, US",
+      status: "success",
+      timestamp: "2025-04-27 09:15 AM"
+    },
+    {
+      id: 2,
+      device: "Safari / macOS",
+      location: "New York, US",
+      status: "success",
+      timestamp: "2025-04-27 08:30 AM"
+    },
+    {
+      id: 3,
+      device: "Firefox / Linux",
+      location: "London, UK",
+      status: "failed",
+      timestamp: "2025-04-27 07:45 AM"
+    },
+    {
+      id: 4,
+      device: "Chrome / Android",
+      location: "Toronto, CA",
+      status: "success",
+      timestamp: "2025-04-27 06:20 AM"
+    }
+  ];
+
+  const recentAlerts = [
+    {
+      id: 1,
+      title: "Multiple Failed Login Attempts",
+      description: "5 failed login attempts from IP 192.168.1.155",
+      severity: "high",
+      time: "15 minutes ago"
+    },
+    {
+      id: 2,
+      title: "New Device Login",
+      description: "Login from new device in Paris, France",
+      severity: "medium",
+      time: "1 hour ago"
+    },
+    {
+      id: 3,
+      title: "Unusual Login Time",
+      description: "Login detected outside normal hours",
+      severity: "low",
+      time: "2 hours ago"
+    }
   ];
 
   return (
@@ -20,7 +102,10 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <Card key={stat.title} className="p-6">
-            <h3 className="text-lg font-medium text-gray-600">{stat.title}</h3>
+            <div className="flex items-center gap-2">
+              <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              <h3 className="text-lg font-medium text-gray-600">{stat.title}</h3>
+            </div>
             <div className="mt-2 flex justify-between items-end">
               <div className="text-3xl font-semibold">{stat.value}</div>
             </div>
@@ -43,21 +128,77 @@ const Dashboard = () => {
               Security Status: Your account is secure
             </div>
             <p className="text-green-600 mt-1">
-              No suspicious activities detected in your recent login history.
+              Regular login patterns detected. No immediate security concerns.
             </p>
           </div>
         </TabsContent>
 
         <TabsContent value="login-history">
-          <div className="text-center text-gray-500 py-12">
-            No login history available
-          </div>
+          <Card className="mt-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Device / Browser</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Time</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {loginHistory.map((log) => (
+                  <TableRow key={log.id}>
+                    <TableCell>{log.device}</TableCell>
+                    <TableCell>{log.location}</TableCell>
+                    <TableCell>
+                      <Badge variant={log.status === 'success' ? 'outline' : 'destructive'}>
+                        {log.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{log.timestamp}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
         </TabsContent>
 
         <TabsContent value="alerts">
-          <div className="text-center text-gray-500 py-12">
-            No security alerts
-          </div>
+          <Card className="mt-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Alert</TableHead>
+                  <TableHead>Severity</TableHead>
+                  <TableHead>Time</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recentAlerts.map((alert) => (
+                  <TableRow key={alert.id}>
+                    <TableCell>
+                      <div className="font-medium">{alert.title}</div>
+                      <div className="text-sm text-gray-500">{alert.description}</div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge 
+                        variant="outline" 
+                        className={
+                          alert.severity === 'high' 
+                            ? 'bg-red-100 text-red-800 border-red-200' 
+                            : alert.severity === 'medium'
+                            ? 'bg-yellow-100 text-yellow-800 border-yellow-200'
+                            : 'bg-blue-100 text-blue-800 border-blue-200'
+                        }
+                      >
+                        {alert.severity.toUpperCase()}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{alert.time}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
