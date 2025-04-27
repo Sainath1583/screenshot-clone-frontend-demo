@@ -1,6 +1,6 @@
 
 import { NavLink } from "react-router-dom";
-import { activity, bell, logOut, settings } from "lucide-react";
+import { Activity, Bell, LogOut, Settings } from "lucide-react";
 
 const Sidebar = () => {
   const user = {
@@ -28,7 +28,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <activity className="w-5 h-5" />
+          <Activity className="w-5 h-5" />
           <span>Dashboard</span>
         </NavLink>
 
@@ -40,7 +40,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <bell className="w-5 h-5" />
+          <Bell className="w-5 h-5" />
           <span>Alerts</span>
         </NavLink>
 
@@ -52,7 +52,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <activity className="w-5 h-5" />
+          <Activity className="w-5 h-5" />
           <span>Activity Log</span>
         </NavLink>
 
@@ -64,14 +64,14 @@ const Sidebar = () => {
             }`
           }
         >
-          <settings className="w-5 h-5" />
+          <Settings className="w-5 h-5" />
           <span>Settings</span>
         </NavLink>
       </nav>
 
       <div className="absolute bottom-6">
         <button className="flex items-center space-x-3 p-3 text-gray-300 hover:bg-blue-900/50 rounded-lg">
-          <logOut className="w-5 h-5" />
+          <LogOut className="w-5 h-5" />
           <span>Log Out</span>
         </button>
       </div>
