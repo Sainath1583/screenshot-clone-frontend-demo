@@ -8,6 +8,9 @@ import Settings from "./pages/Settings";
 import Alerts from "./pages/Alerts";
 import ActivityLog from "./pages/ActivityLog";
 import Login from "./pages/Login";
+import Index from "./pages/Index";
+import Signup from "./pages/Signup";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -16,13 +19,16 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Layout />}>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="settings" element={<Settings />} />
             <Route path="alerts" element={<Alerts />} />
             <Route path="activity" element={<ActivityLog />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
