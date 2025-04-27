@@ -1,9 +1,9 @@
-
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Shield, ShieldAlert, LogIn, Bell } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
   const stats = [
@@ -92,6 +92,16 @@ const Dashboard = () => {
     }
   ];
 
+  const activityData = [
+    { date: '2025-04-21', normal: 156, anomaly: 8 },
+    { date: '2025-04-22', normal: 162, anomaly: 12 },
+    { date: '2025-04-23', normal: 145, anomaly: 15 },
+    { date: '2025-04-24', normal: 168, anomaly: 10 },
+    { date: '2025-04-25', normal: 172, anomaly: 14 },
+    { date: '2025-04-26', normal: 158, anomaly: 11 },
+    { date: '2025-04-27', normal: 195, anomaly: 8 },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
@@ -122,14 +132,45 @@ const Dashboard = () => {
         </TabsList>
         
         <TabsContent value="overview">
-          <div className="rounded-lg border bg-green-50 border-green-200 p-4 mt-4">
-            <div className="flex items-center text-green-600 font-medium">
-              <span className="mr-2">✓</span>
-              Security Status: Your account is secure
+          <div className="space-y-4">
+            <div className="rounded-lg border bg-green-50 border-green-200 p-4">
+              <div className="flex items-center text-green-600 font-medium">
+                <span className="mr-2">✓</span>
+                Security Status: Your account is secure
+              </div>
+              <p className="text-green-600 mt-1">
+                Regular login patterns detected. No immediate security concerns.
+              </p>
             </div>
-            <p className="text-green-600 mt-1">
-              Regular login patterns detected. No immediate security concerns.
-            </p>
+
+            <Card className="p-6">
+              <h3 className="text-lg font-medium mb-4">Activity Overview - Last 7 Days</h3>
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={activityData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line 
+                      type="monotone" 
+                      dataKey="normal" 
+                      stroke="#22c55e" 
+                      name="Normal Activity"
+                      strokeWidth={2}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="anomaly" 
+                      stroke="#dc2626" 
+                      name="Anomaly Activity"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
           </div>
         </TabsContent>
 
